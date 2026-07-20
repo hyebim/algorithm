@@ -5,8 +5,8 @@ class Solution {
 
         answer = new int[2];
         
-        ArrayList<String> usedWords = new ArrayList<>();
-        usedWords.add(words[0]);
+       HashSet<String> set = new HashSet<>();
+        set.add(words[0]);
         
         boolean found = false;
         
@@ -20,8 +20,8 @@ class Solution {
         	} 
         	
 //        	ArrayList<String> usedWords = new ArrayList<>();
-        	for(int j = 0; j < usedWords.size(); j++) {
-        		if(usedWords.get(j).equals(words[i+1])) {
+        	for(int j = 0; j < set.size(); j++) {
+        		if(set.contains(words[i+1])) {
         			answer[0] = (i+1)%n+1;
             		answer[1] = (i+1)/n+1;
             		found = true;
@@ -29,7 +29,7 @@ class Solution {
         		}
         	}
         	if(found) break;
-        	else usedWords.add(words[i+1]);
+        	else set.add(words[i+1]);
         }
 
         return answer;
