@@ -1,30 +1,43 @@
 class Solution {
-    public int solution(String word) {
-        int answer = 0;
-        int[] num = new int[5];
-        int i = 0;
-        for(char c : word.toCharArray()) {
-        	if(c=='A') {
-        		num[i] = 1;
-        	} else if(c=='E') {
-        		num[i] = 2;
-        	} else if(c=='I') {
-        		num[i] = 3;
-        	} else if(c=='O') {
-        		num[i] = 4;
-        	} else if(c=='U') {
-        		num[i] = 5;
-        	}
-        	i++;
-        }
-        
-        int[] weight = {781, 156, 31, 6, 1};
-        for(int j = 0; j < 5; j++) {
-            if(num[j] == 0) {
-        		break;
-        	}
-        	answer += (num[j]-1) * weight[j] + 1;
-        }
+    static int answer = 0;
+    static int count = 0;
+
+    public static int solution(String word) {
+
+        answer = 0;
+        count = 0;
+
+        DFS(word, "");
+
         return answer;
+    }
+
+    public static void DFS(String word, String str) {
+
+    	if (word.equals(str)) {
+    	    answer = count;
+    	    return;
+    	} else {
+    	    count++;
+    	}
+
+        // 길이 5면 더 못 내려감
+        if (str.length() == 5) {
+            return;
+        }
+
+        DFS(word, str + "A");
+        if (answer != 0) return;
+
+        DFS(word, str + "E");
+        if (answer != 0) return;
+
+        DFS(word, str + "I");
+        if (answer != 0) return;
+
+        DFS(word, str + "O");
+        if (answer != 0) return;
+
+        DFS(word, str + "U");
     }
 }
