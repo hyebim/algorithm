@@ -13,17 +13,11 @@ class Solution {
         
         int cnt = 0;
         while(!stack.isEmpty() && j < num.length) {
-        	if(stack.peek() > num[j]) {
-        		stack.push(num[j]);
-        	} else if(stack.peek() < num[j]) {
-        		while(!stack.isEmpty() && stack.peek() < num[j] && cnt < k) {
-        			stack.pop();
-            		cnt++;
-        		}
-        		stack.push(num[j]);
-        	} else {
-        		stack.push(num[j]);
-        	}
+        	while(!stack.isEmpty() && stack.peek() < num[j] && cnt < k) {
+    			stack.pop();
+        		cnt++;
+    		}
+        	stack.push(num[j]);
         	j++;
         }
         
