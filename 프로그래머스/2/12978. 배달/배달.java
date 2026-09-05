@@ -37,15 +37,16 @@ class Solution {
             int[] cur = pq.poll();
             int curTime = cur[0];
             int curNum = cur[1];
+
+            if(distance[curNum] != curTime) {
+                continue;
+            }
             
             for(int[] next : graph.get(curNum)) {
                 int nextNum = next[0];
                 int time = next[1];
                 
                 int nextTime = curTime + time;
-                if(distance[curNum] != curTime) {
-                    continue;
-                }
                 
                 if(distance[nextNum] > nextTime) {
                     distance[nextNum] = nextTime;
