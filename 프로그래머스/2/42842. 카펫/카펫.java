@@ -3,26 +3,27 @@ class Solution {
     public int[] solution(int brown, int yellow) {
         int[] answer = {};
         answer = new int[2];
-        int total = brown+yellow;
-        ArrayList<Integer> arr = func(total); // 1 2 3 4 6 12
-        for(int i = 0; i <= arr.size()/2; i++) {
-        	int h = arr.get(i);
-        	int w = total / h;
-        	if(w >= h && (w-2)*(h-2)==yellow) {
-        		answer[0] = w;
-        		answer[1] = h;
-        	}
-        }
+        
+        ArrayList<Integer> arr = func(yellow);
+        for(int i = 0; i < arr.size(); i++) {
+                if(arr.get(i)*2 + yellow/arr.get(i)*2 + 4 == brown) {
+                    answer[0] = yellow/arr.get(i)+2;
+                    answer[1] = arr.get(i)+2;
+                    break;
+                }
+            }
+        
         return answer;
     }
     
-    public ArrayList<Integer> func(int num) {
-		int i = 1;
-		ArrayList<Integer> arr = new ArrayList<>();
-		while(i <= num) {
-			if(num%i==0) arr.add(i);
-			i++;
-		}
-		return arr;
-	}
+    // 약수 반만 담기
+    public ArrayList<Integer> func(int yellow) {
+        ArrayList<Integer> arr = new ArrayList<>();
+        for(int i = 1; i*i <= yellow; i++) {
+            if(yellow%i==0) {
+                arr.add(i);
+            }
+        }
+        return arr;
+    }
 }
