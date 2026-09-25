@@ -1,25 +1,22 @@
 class Solution {
-    static int answer = 0;
-	
-	public static int solution(int[] numbers, int target) {
+    int answer = 0;
+    
+    public int solution(int[] numbers, int target) {
         
-        DFS(numbers, -1, 0, target);
+        DFS(numbers, target, 0, 0);
         
         return answer;
     }
-	
-	// 현재 계산한 합이 얼마인지 가지고 다음 노드로 넘어가야함 
-	public static void DFS(int[] numbers, int idx, int sum, int target) {
-		
-		if(numbers.length==idx+1) {
-			if(target==sum) {
-				answer++;
-			} 
-			return;
-		}
-		
-		DFS(numbers, idx+1, sum+numbers[idx+1], target);
-		DFS(numbers, idx+1, sum-numbers[idx+1], target);
-
-	}
+    
+    public void DFS(int[] numbers, int target, int total, int i) {
+        if(i == numbers.length) {
+            if(total == target) {
+                answer++;
+            }
+            return;
+        }
+        
+        DFS(numbers, target, total+numbers[i], i+1);
+        DFS(numbers, target, total-numbers[i], i+1);
+    }
 }
