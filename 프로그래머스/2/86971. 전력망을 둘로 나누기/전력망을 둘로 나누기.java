@@ -1,62 +1,52 @@
 import java.util.*;
 class Solution {
-    static ArrayList<ArrayList<Integer>> graph;
-    static boolean[] visited;
-    static int cnt;
-    
-    public void DFS(int v, int a, int b) {
-        visited[v] = true;
-        cnt++;
-        
-        for(int next : graph.get(v)) {
-            if(visited[next]) {
-                continue;
-            }
-            
-            if(v==a && next==b) {
-                continue;
-            }
-            
-            if(v==b && next==a) {
-                continue;
-            }
-            
-            DFS(next, a, b);
-        }
-    
-        
-    }
+    ArrayList<Integer>[] graph;
+    boolean[] visited;
+    int count; 
     
     public int solution(int n, int[][] wires) {
         int answer = Integer.MAX_VALUE;
-        graph = new ArrayList<>();
-        
-        for(int i = 0; i <= n; i++) {
-            graph.add(new ArrayList<>());
+     
+        graph = new ArrayList[n+1];
+        for(int i = 0; i < n+1; i++) {
+            graph[i] = new ArrayList<>();
         }
         
         for(int i = 0; i < wires.length; i++) {
-            int a = wires[i][0];
-            int b = wires[i][1];
-            
-            graph.get(a).add(b);
-            graph.get(b).add(a);
+            graph[wires[i][1]].add(wires[i][0]);
+            graph[wires[i][0]].add(wires[i][1]);
         }
         
+        int cutA = 0;
+        int cutB = 0;
         for(int i = 0; i < wires.length; i++) {
-            int a = wires[i][0];
-            int b = wires[i][1];
-            
             visited = new boolean[n+1];
-            cnt = 0;
-            DFS(a, a, b);
+            count = 0;
             
-            int diff = Math.abs(cnt-(n-cnt));
-            answer = Math.min(answer, diff);
+            cutA = wires[i][0];
+            cutB = wires[i][1];
             
+            DFS(1, cutA, cutB);
+            
+            answer = Math.min(answer, Math.abs(count-(n-count)));
         }
+        
         return answer;
     }
     
-    
+    public void DFS(int node, int cutA, int cutB) {
+        visited[node] = true;
+        count++; // 노드를 처음 방문한 순간 증가시켜주어야함
+        
+        for(int next : graph[node]) {
+            if((node == cutA && next == cutB) ||
+                (node == cutB && next == cutA)) {
+                    continue;
+            }
+            
+            if(!visited[next]) {
+                DFS(next, cutA, cutB);
+            }
+        }        
+    }
 }
