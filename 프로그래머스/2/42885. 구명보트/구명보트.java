@@ -7,21 +7,17 @@ class Solution {
         int left = 0;
         int right = people.length - 1;
         
-        while(left < right) {
+        while(left <= right) {
             if(people[left]+people[right] <= limit) {
-                answer++;
                 left++;
-                right--;
-            } else if(people[left]+people[right] > limit) {
-                right--;
-                answer++;
             } 
             
-            if(left == right) {
-                answer++;
-                left++;
-                right--;
-            }
+            // if(left == right) {
+            //     left++;
+            // }
+            
+            right--;
+            answer++;
         }
         
         return answer;
