@@ -7,15 +7,20 @@ class Solution {
         Stack<Integer> stack = new Stack<>();
         stack.push(0);
         for(int i = 1; i < numbers.length; i++) {
-        	while(!stack.isEmpty() && numbers[i] > numbers[stack.peek()]) {
-        		answer[stack.peek()] = numbers[i];
-        		stack.pop();
-        	} 
-        	stack.push(i);
+            while(!stack.isEmpty() && numbers[stack.peek()] < numbers[i]) {
+            
+                int n = stack.pop();
+                answer[n] = numbers[i];
+                // System.out.print(n + " ");
+            }
+            
+            stack.push(i);
         }
         
         for(int i = 0; i < answer.length; i++) {
-        	if(answer[i] == 0) answer[i] = -1;
+            if(answer[i] == 0) {
+                answer[i] = -1;
+            }
         }
         return answer;
     }
