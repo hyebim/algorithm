@@ -2,35 +2,31 @@ import java.util.*;
 class Solution {
     public String solution(String number, int k) {
         String answer = "";
-        int[] num = new int[number.length()];
-        for(int i = 0; i < number.length(); i++) {
-        	num[i] = number.charAt(i)-'0';
-        }
         
-        int j = 1;
-        Stack<Integer> stack = new Stack<>();
-        stack.push(num[0]);
-        
+        Stack<Character> stack = new Stack<>();
         int cnt = 0;
-        while(!stack.isEmpty() && j < num.length) {
-        	while(!stack.isEmpty() && stack.peek() < num[j] && cnt < k) {
-    			stack.pop();
-        		cnt++;
-    		}
-        	stack.push(num[j]);
-        	j++;
+        stack.push(number.charAt(0));
+        for(int i = 1; i < number.length(); i++) {
+            char ch = number.charAt(i);            
+            
+            while(!stack.isEmpty() && stack.peek() < ch && cnt < k) {
+                stack.pop();
+                cnt++;
+            }
+            
+            stack.push(ch);
         }
         
         if(cnt == 0) {
-        	while(cnt < k) {
-        		stack.pop();
-        		cnt++;
-        	}
+            for(int i = 0; i < stack.size()-k; i++) {
+                answer += stack.get(i);
+            }
+        } else {
+            for(int i = 0; i < stack.size(); i++) {
+                answer += stack.get(i);
+            }
         }
         
-        for(int i = 0; i < stack.size(); i++) {
-        	answer += stack.get(i);
-        }
         return answer;
     }
 }
