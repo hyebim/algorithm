@@ -2,34 +2,37 @@ import java.util.*;
 class Solution {
     public int solution(int[] priorities, int location) {
         int answer = 0;
-        Queue<int[]> q = new ArrayDeque<>();
+        
+        Queue<int[]> queue = new ArrayDeque<>();
         for(int i = 0; i < priorities.length; i++) {
-        	q.offer(new int[] {priorities[i], i}); // 우선순위, index
-        }
-
-        int[] process = new int[priorities.length];
-        int idx = 0;
-        while(!q.isEmpty()) {
-        	boolean isTrue = false;
-        	int[] cur = q.poll();
-        	for(int[] next : q) {
-        		if(cur[0] < next[0]) { // 우선순위가 더 높은게 있으면
-//        			q.offer(cur);
-        			isTrue = true;
-        			break;
-        		} 
-        	}
-        	
-        	if(isTrue) q.offer(cur);
-        	else {
-        		process[idx] = cur[1];
-        		idx++;
-        	}
+            queue.offer(new int[]{priorities[i], i});
         }
         
-        for(int i = 0; i < process.length; i++) {
-        	if(location==process[i]) answer = i+1;
+        // 최대 힙(내림차순)
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> Integer.compare(b, a));
+        for(int i = 0; i < priorities.length; i++) {
+            pq.offer(priorities[i]);
         }
+        
+        int cnt = 0;
+        while(!queue.isEmpty()) {     
+            int[] cur = queue.peek();
+                      
+            if(pq.peek() == cur[0]) {
+                queue.poll();
+                pq.poll();              
+                cnt++;            
+                if(location == cur[1]) {
+                    return cnt;
+                }
+            } else if(pq.peek() > cur[0]) {
+                int[] back = queue.poll();
+                queue.offer(new int[]{back[0], back[1]});
+                // System.out.println(back[0] + " " + back[1]);
+            }            
+
+        }
+        
         return answer;
     }
 }
