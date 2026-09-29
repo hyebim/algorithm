@@ -5,7 +5,6 @@ class Solution {
     public String[] solution(String[] orders, int[] course) {
         String[] answer = {};
         
-        // 정렬
         for(int i = 0; i < orders.length; i++) {
             char[] ch = orders[i].toCharArray();
             Arrays.sort(ch);
@@ -16,49 +15,47 @@ class Solution {
         ArrayList<String> list = new ArrayList<>();
         for(int i = 0; i < course.length; i++) {
             for(int j = 0; j < orders.length; j++) {
-                DFS(orders[j], 0, course[i], sb);
+                comb(orders[j], course[i], 0, sb);
             }
             
             int max = 0;
             for(String key : map.keySet()) {
                 max = Math.max(max, map.get(key));
             }
-            
+
             for(String key : map.keySet()) {
                 if(map.get(key) >= 2 && map.get(key) >= max) {
                     list.add(key);
-                    System.out.println(key + " " + map.get(key));
                 }
             }
-            map.clear();
             
+            map.clear();
         }
         
+        Collections.sort(list);
         answer = new String[list.size()];
         for(int i = 0; i < list.size(); i++) {
+            // System.out.print(list.get(i));
             answer[i] = list.get(i);
         }
-        
-        Arrays.sort(answer);
         
         return answer;
     }
     
-    public void DFS(String order, int start, int r, StringBuilder sb) {
-
-        if(sb.length() == r) {
+    public void comb(String str, int n, int start, StringBuilder sb) {
+        
+        if(n == sb.length()) {
             String menu = sb.toString();
             map.put(menu, map.getOrDefault(menu, 0)+1);
-        
             return;
         }
         
-        for(int i = start; i < order.length(); i++) {
-            sb.append(order.charAt(i));
-            DFS(order, i+1, r, sb);
-            sb.deleteCharAt(sb.length() - 1);
+        char[] ch = str.toCharArray();
+        for(int i = start; i < ch.length; i++) {
+            sb.append(ch[i]);
+            comb(str, n, i+1, sb);
+            sb.deleteCharAt(sb.length()-1);
         }
-        
+
     }
-    
 }
