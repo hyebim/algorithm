@@ -15,19 +15,15 @@ class Solution {
             stack.push(ch[i]);
         }
 
+        while(cnt < k) {
+            stack.pop();
+            cnt++;
+        }
+        
         for(int i = 0; i < stack.size(); i++) {
             sb.append(stack.get(i));
         }
-        
-        if(stack.size() == number.length()) {
-            for(int i = number.length()-1; i >= 0; i--) {
-                sb.deleteCharAt(i);
-                cnt++;
-                if(cnt == k) {
-                    return sb.toString();
-                }
-            }
-        }
+    
         
         return sb.toString();
     }
