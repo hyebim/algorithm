@@ -1,39 +1,39 @@
 import java.util.*;
 class Solution {
-    boolean[][] visited;
+    int answer;
     public int solution(int[][] maps) {
-        int answer = 0;
-        visited = new boolean[maps.length][maps[0].length];
         
         answer = BFS(maps);
+        
         return answer;
     }
     
     public int BFS(int[][] maps) {
-        Queue<int[]> queue = new ArrayDeque<>();
+        int[] dx = {-1, 0, 1, 0};
+        int[] dy = {0, 1, 0, -1};
         
-        visited[0][0] = true;
+        Queue<int[]> queue = new ArrayDeque<>();
+        boolean[][] visited = new boolean[maps.length][maps[0].length];
+        
         queue.offer(new int[]{0, 0, 1});
+        visited[0][0] = true;
         
         while(!queue.isEmpty()) {
             int[] cur = queue.poll();
-            int[] dx = {-1, 1, 0, 0};
-            int[] dy = {0, 0, 1, -1};
+            
+            int x = cur[0];
+            int y = cur[1];
+            int dis = cur[2];
             
             for(int i = 0; i < 4; i++) {
                 int nx = cur[0] + dx[i];
                 int ny = cur[1] + dy[i];
-                int dis = cur[2];
                 
-                if(nx < 0 || ny < 0 || nx >= maps.length || ny >= maps[0].length) {
-                    continue;
-                }
-                
-                if(nx==maps.length-1 && ny==maps[0].length-1) {
+                if(nx == maps.length-1 && ny == maps[0].length-1) {
                     return dis+1;
                 }
                 
-                if(visited[nx][ny]) {
+                if(nx < 0 || nx >= maps.length || ny < 0 || ny >= maps[0].length) {
                     continue;
                 }
                 
@@ -41,11 +41,15 @@ class Solution {
                     continue;
                 }
                 
-                visited[nx][ny] = true;
+                if(visited[nx][ny]) {
+                    continue;
+                }
+                
                 queue.offer(new int[]{nx, ny, dis+1});
+                visited[nx][ny] = true;
                 
             }
-
+            
         }
         
         return -1;
