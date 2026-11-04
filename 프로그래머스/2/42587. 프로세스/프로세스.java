@@ -5,34 +5,33 @@ class Solution {
         
         Queue<int[]> queue = new ArrayDeque<>();
         for(int i = 0; i < priorities.length; i++) {
-            queue.offer(new int[]{priorities[i], i});
+            queue.offer(new int[]{i, priorities[i]}); //인덱스, 우선순위로 큐에 넣기
         }
         
-        // 최대 힙(내림차순)
-        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> Integer.compare(b, a));
+        int[][] p = new int[priorities.length][2];
         for(int i = 0; i < priorities.length; i++) {
-            pq.offer(priorities[i]);
+            p[i][0] = i;
+            p[i][1] = priorities[i];
         }
-        
-        int cnt = 0;
-        while(!queue.isEmpty()) {     
-            int[] cur = queue.peek();
-                      
-            if(pq.peek() == cur[0]) {
-                queue.poll();
-                pq.poll();              
-                cnt++;            
-                if(location == cur[1]) {
-                    return cnt;
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> Integer.compare(b[1], a[1])); 
+        for(int i = 0; i < priorities.length; i++) {
+            pq.offer(p[i]);
+        }
+     
+        int order = 0;
+        while(!queue.isEmpty()) {
+            if(pq.peek()[1] == queue.peek()[1]) {
+                order++;
+                pq.poll();
+                int[] cur = queue.poll();
+                if(location == cur[0]) {       
+                    return order; 
                 }
-            } else if(pq.peek() > cur[0]) {
-                int[] back = queue.poll();
-                queue.offer(new int[]{back[0], back[1]});
-                // System.out.println(back[0] + " " + back[1]);
+            } else {
+                queue.offer(queue.poll());
             }            
-
         }
-        
+       
         return answer;
     }
 }
