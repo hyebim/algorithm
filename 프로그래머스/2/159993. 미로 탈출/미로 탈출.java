@@ -35,7 +35,7 @@ class Solution {
             }
         }
 
-        if(BFS(map, sx, sy, lx, ly) == -1 || BFS(map, sx, sy, gx, gy) == -1) {
+        if(BFS(map, sx, sy, lx, ly) == -1 || BFS(map, lx, ly, gx, gy) == -1) {
             answer = -1;
         } else {
             answer = BFS(map, sx, sy, lx, ly) + BFS(map, lx, ly, gx, gy);
